@@ -1,5 +1,19 @@
 import { Plugin } from 'vue'
 
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        on: (event:string, listener: () => void) => void,
+        emit: (event:string, ...args: any[]) => void
+    }
+}
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        on: (event:string, listener: () => void) => void,
+        emit: (event:string, ...args: any[]) => void
+    }
+}
+
+
 function camelize(str: string) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
         if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
@@ -7,7 +21,7 @@ function camelize(str: string) {
     });
 }
 
-export const VueInstanceEvents: Plugin = (app, options) => {
+const VueInstanceEvents: Plugin = (app, options) => {
 
     app.config.globalProperties.on = function(event: string, listener: ()=>void) {
         const vnode = app._instance?.vnode || null
@@ -25,10 +39,3 @@ export const VueInstanceEvents: Plugin = (app, options) => {
 }
 
 export default VueInstanceEvents
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        on: (event:string, listener: () => void) => void,
-        emit: (event:string, ...args: any[]) => void
-    }
-}
