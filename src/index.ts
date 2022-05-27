@@ -2,13 +2,14 @@ import { Plugin } from 'vue'
 
 declare module 'vue' {
     interface ComponentCustomProperties {
-        on: (event:string, listener: () => void) => void,
+        on: (event:string, listener: (...args: any[]) => void) => void,
         emit: (event:string, ...args: any[]) => void
     }
 }
+
 declare module '@vue/runtime-core' {
     interface ComponentCustomProperties {
-        on: (event:string, listener: () => void) => void,
+        on: (event:string, listener: (...args: any[]) => void) => void,
         emit: (event:string, ...args: any[]) => void
     }
 }
@@ -23,7 +24,7 @@ function camelize(str: string) {
 
 const VueInstanceEvents: Plugin = (app, options) => {
 
-    app.config.globalProperties.on = function(event: string, listener: ()=>void) {
+    app.config.globalProperties.on = function(event: string, listener: (...args: any[]) => void) {
         const vnode = app._instance?.vnode || null
         if(vnode) {
             vnode.props = vnode.props || {}
