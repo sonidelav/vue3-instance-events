@@ -2,6 +2,20 @@
 
 Adds `.on` and `.emit` into instance API
 
+## Install
+
+### NPM
+
+```sh
+npm install vue3-instance-events
+```
+
+Yarn
+
+```sh
+yarn add vue3-instance-events
+```
+
 ## Usage
 
 ```js
